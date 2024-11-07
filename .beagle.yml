@@ -16,7 +16,10 @@ clone:
 
 steps:
   - name: fetch
-    image: registry.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    settings:
+      proxy:
+        from_secret: SOCKS5_PROXY
 
   - name: docker
     image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
@@ -53,7 +56,10 @@ clone:
 
 steps:
   - name: fetch
-    image: registry.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    settings:
+      proxy:
+        from_secret: SOCKS5_PROXY
 
   - name: docker
     image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
@@ -90,7 +96,10 @@ clone:
 
 steps:
   - name: fetch
-    image: registry.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    settings:
+      proxy:
+        from_secret: SOCKS5_PROXY
 
   - name: docker
     image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
@@ -127,7 +136,10 @@ clone:
 
 steps:
   - name: fetch
-    image: registry.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    settings:
+      proxy:
+        from_secret: SOCKS5_PROXY
 
   - name: docker
     image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
@@ -164,7 +176,10 @@ clone:
 
 steps:
   - name: fetch
-    image: registry.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    settings:
+      proxy:
+        from_secret: SOCKS5_PROXY
 
   - name: docker
     image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
@@ -201,7 +216,10 @@ clone:
 
 steps:
   - name: fetch
-    image: registry.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    settings:
+      proxy:
+        from_secret: SOCKS5_PROXY
 
   - name: docker
     image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
@@ -238,7 +256,10 @@ clone:
 
 steps:
   - name: fetch
-    image: registry.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    settings:
+      proxy:
+        from_secret: SOCKS5_PROXY
 
   - name: docker
     image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
@@ -275,7 +296,10 @@ clone:
 
 steps:
   - name: fetch
-    image: registry.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    settings:
+      proxy:
+        from_secret: SOCKS5_PROXY
 
   - name: docker
     image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
@@ -312,7 +336,10 @@ clone:
 
 steps:
   - name: fetch
-    image: registry.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    settings:
+      proxy:
+        from_secret: SOCKS5_PROXY
 
   - name: docker
     image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
@@ -389,6 +416,13 @@ steps:
 
 ---
 kind: secret
+name: SOCKS5_PROXY
+get:
+  name: SOCKS5_PROXY
+  path: devops-secrets
+
+---
+kind: secret
 name: REGISTRY_USER_ALIYUN
 get:
   name: REGISTRY_USER_ALIYUN
@@ -399,4 +433,18 @@ kind: secret
 name: REGISTRY_PASSWORD_ALIYUN
 get:
   name: REGISTRY_PASSWORD_ALIYUN
+  path: devops-secrets
+
+---
+kind: secret
+name: S3_ACCESS_KEY_ALIYUN
+get:
+  name: S3_ACCESS_KEY_ALIYUN
+  path: devops-secrets
+
+---
+kind: secret
+name: S3_SECRET_KEY_ALIYUN
+get:
+  name: S3_SECRET_KEY_ALIYUN
   path: devops-secrets
