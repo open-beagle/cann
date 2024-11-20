@@ -17,9 +17,6 @@ clone:
 steps:
   - name: fetch
     image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
-    settings:
-      proxy:
-        from_secret: SOCKS5_PROXY
 
   - name: docker
     image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
@@ -57,9 +54,6 @@ clone:
 steps:
   - name: fetch
     image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
-    settings:
-      proxy:
-        from_secret: SOCKS5_PROXY
 
   - name: docker
     image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
@@ -97,9 +91,6 @@ clone:
 steps:
   - name: fetch
     image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
-    settings:
-      proxy:
-        from_secret: SOCKS5_PROXY
 
   - name: docker
     image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
@@ -120,11 +111,11 @@ steps:
 
 ---
 kind: pipeline
-name: cann-8.0-torch
+name: cann-8.0-jupyter
 
 trigger:
   branch:
-    - cann-8.0-torch
+    - cann-8.0-jupyter
 
 volumes:
   - name: docker
@@ -137,9 +128,6 @@ clone:
 steps:
   - name: fetch
     image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
-    settings:
-      proxy:
-        from_secret: SOCKS5_PROXY
 
   - name: docker
     image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
@@ -147,16 +135,17 @@ steps:
       - name: docker
         path: /var/run/docker.sock
     settings:
-      dockerfile: .beagle/cann8.0.RC3-torch240.dockerfile
+      dockerfile: .beagle/py310-jupyter.dockerfile
       base: registry-vpc.cn-qingdao.aliyuncs.com/wod/cann:8.0.RC3-py310
       repo: wod/cann
-      version: "8.0.RC3-py310-torch240"
+      version: "8.0.RC3-py310-jupyter"
       args: "TARGETOS=linux,TARGETARCH=arm64"
       registry: registry-vpc.cn-qingdao.aliyuncs.com
       registry_user:
         from_secret: REGISTRY_USER_ALIYUN
       registry_password:
         from_secret: REGISTRY_PASSWORD_ALIYUN
+
 
 ---
 kind: pipeline
@@ -177,9 +166,6 @@ clone:
 steps:
   - name: fetch
     image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
-    settings:
-      proxy:
-        from_secret: SOCKS5_PROXY
 
   - name: docker
     image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
@@ -188,9 +174,83 @@ steps:
         path: /var/run/docker.sock
     settings:
       dockerfile: .beagle/cann8.0.RC3-vnc116.dockerfile
-      base: registry.ali.wodcloud.com/wod/cann:py310-vnc116
+      base: registry-vpc.cn-qingdao.aliyuncs.com/wod/cann:py310-vnc116
       repo: wod/cann
       version: "8.0.RC3-py310-vnc116"
+      args: "TARGETOS=linux,TARGETARCH=arm64"
+      registry: registry-vpc.cn-qingdao.aliyuncs.com
+      registry_user:
+        from_secret: REGISTRY_USER_ALIYUN
+      registry_password:
+        from_secret: REGISTRY_PASSWORD_ALIYUN
+        
+---
+kind: pipeline
+name: cann-8.0-torch
+
+trigger:
+  branch:
+    - cann-8.0-torch
+
+volumes:
+  - name: docker
+    host:
+      path: /var/run/docker.sock
+
+clone:
+  disable: true
+
+steps:
+  - name: fetch
+    image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+
+  - name: docker
+    image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    settings:
+      dockerfile: .beagle/cann8.0.RC3-torch240.dockerfile
+      base: registry-vpc.cn-qingdao.aliyuncs.com/wod/cann:8.0.RC3-py310
+      repo: wod/cann
+      version: "8.0.RC3-py310-torch240"
+      args: "TARGETOS=linux,TARGETARCH=arm64"
+      registry: registry-vpc.cn-qingdao.aliyuncs.com
+      registry_user:
+        from_secret: REGISTRY_USER_ALIYUN
+      registry_password:
+        from_secret: REGISTRY_PASSWORD_ALIYUN
+
+---
+kind: pipeline
+name: cann-8.0-torch-jupyter
+
+trigger:
+  branch:
+    - cann-8.0-torch-jupyter
+
+volumes:
+  - name: docker
+    host:
+      path: /var/run/docker.sock
+
+clone:
+  disable: true
+
+steps:
+  - name: fetch
+    image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+
+  - name: docker
+    image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    settings:
+      dockerfile: .beagle/py310-jupyter.dockerfile
+      base: registry-vpc.cn-qingdao.aliyuncs.com/wod/cann:8.0.RC3-py310-torch240
+      repo: wod/cann
+      version: "8.0.RC3-py310-torch240-jupyter"
       args: "TARGETOS=linux,TARGETARCH=arm64"
       registry: registry-vpc.cn-qingdao.aliyuncs.com
       registry_user:
@@ -217,9 +277,6 @@ clone:
 steps:
   - name: fetch
     image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
-    settings:
-      proxy:
-        from_secret: SOCKS5_PROXY
 
   - name: docker
     image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
@@ -228,7 +285,7 @@ steps:
         path: /var/run/docker.sock
     settings:
       dockerfile: .beagle/py310.dockerfile
-      base: registry.ali.wodcloud.com/wod/debian:12-arm64
+      base: registry-vpc.cn-qingdao.aliyuncs.com/wod/debian:12-arm64
       repo: wod/cann
       version: py310
       args: "TARGETOS=linux,TARGETARCH=arm64"
@@ -257,9 +314,6 @@ clone:
 steps:
   - name: fetch
     image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
-    settings:
-      proxy:
-        from_secret: SOCKS5_PROXY
 
   - name: docker
     image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
@@ -268,7 +322,7 @@ steps:
         path: /var/run/docker.sock
     settings:
       dockerfile: .beagle/py310-vnc116.dockerfile
-      base: registry.ali.wodcloud.com/wod/kasmweb:debian-bookworm-desktop-v1.16.0-arm64
+      base: registry-vpc.cn-qingdao.aliyuncs.com/wod/kasmweb:debian-bookworm-desktop-v1.16.0-arm64
       repo: wod/cann
       version: py310-vnc116
       args: "TARGETOS=linux,TARGETARCH=arm64"
@@ -297,9 +351,6 @@ clone:
 steps:
   - name: fetch
     image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
-    settings:
-      proxy:
-        from_secret: SOCKS5_PROXY
 
   - name: docker
     image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
@@ -308,7 +359,7 @@ steps:
         path: /var/run/docker.sock
     settings:
       dockerfile: .beagle/cann8.0.RC3-kernel910b.dockerfile
-      base: registry.ali.wodcloud.com/wod/cann:py310
+      base: registry-vpc.cn-qingdao.aliyuncs.com/wod/cann:py310
       repo: wod/cann
       version: "8.0.RC3-py310-kernel910b"
       args: "TARGETOS=linux,TARGETARCH=arm64"
@@ -320,11 +371,11 @@ steps:
 
 ---
 kind: pipeline
-name: cann-8.0-kernel910b-vnc
+name: cann8.0.RC3.beta1-kernel910b
 
 trigger:
   branch:
-    - cann-8.0-kernel910b-vnc
+    - cann8.0.RC3.beta1-kernel910b
 
 volumes:
   - name: docker
@@ -337,9 +388,6 @@ clone:
 steps:
   - name: fetch
     image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
-    settings:
-      proxy:
-        from_secret: SOCKS5_PROXY
 
   - name: docker
     image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
@@ -347,10 +395,10 @@ steps:
       - name: docker
         path: /var/run/docker.sock
     settings:
-      dockerfile: .beagle/cann8.0.RC3-kernel910b-vnc116.dockerfile
-      base: registry.ali.wodcloud.com/wod/cann:py310-vnc116
+      dockerfile: .beagle/cann8.0.RC3.beta1-kernel910b.dockerfile
+      base: registry-vpc.cn-qingdao.aliyuncs.com/wod/cann:py310
       repo: wod/cann
-      version: "8.0.RC3-py310-kernel910b-vnc116"
+      version: "8.0.RC3.beta1-kernel910b"
       args: "TARGETOS=linux,TARGETARCH=arm64"
       registry: registry-vpc.cn-qingdao.aliyuncs.com
       registry_user:
@@ -416,13 +464,6 @@ steps:
 
 ---
 kind: secret
-name: SOCKS5_PROXY
-get:
-  name: SOCKS5_PROXY
-  path: devops-secrets
-
----
-kind: secret
 name: REGISTRY_USER_ALIYUN
 get:
   name: REGISTRY_USER_ALIYUN
@@ -433,18 +474,4 @@ kind: secret
 name: REGISTRY_PASSWORD_ALIYUN
 get:
   name: REGISTRY_PASSWORD_ALIYUN
-  path: devops-secrets
-
----
-kind: secret
-name: S3_ACCESS_KEY_ALIYUN
-get:
-  name: S3_ACCESS_KEY_ALIYUN
-  path: devops-secrets
-
----
-kind: secret
-name: S3_SECRET_KEY_ALIYUN
-get:
-  name: S3_SECRET_KEY_ALIYUN
   path: devops-secrets
